@@ -1,0 +1,669 @@
+/* Googlefont Poppins CDN Link */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+.sidebar{
+  position: fixed;
+  height: 100%;
+  width: 240px;
+  background: #0bb9c5;
+  transition: all 0.5s ease;
+}
+.sidebar.active{
+  width: 60px;
+}
+
+.sidebar .logo-details .logo_name{
+  color: #fff;
+  font-size: 30px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  margin-left: 30px;
+}
+.sidebar .nav-links{
+  margin-top: 10px;
+}
+.sidebar .nav-links li{
+  position: relative;
+  list-style: none;
+  height: 50px;
+}
+.sidebar .nav-links li a{
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  transition: all 0.4s ease;
+}
+.sidebar .nav-links li a.active{
+  background:#21a3ac;
+}
+.sidebar .nav-links li a:hover{
+  background: #21a3ac;
+}
+.sidebar .nav-links li i{
+  min-width: 60px;
+  text-align: center;
+  font-size: 18px;
+  color: #fff;
+}
+.sidebar .nav-links li a .links_name{
+  color: #fff;
+  font-size: 15px;
+  font-weight: 400;
+  white-space: nowrap;
+}
+.sidebar .nav-links .log_out{
+  position: absolute;
+  margin-left: 40px;
+  bottom: 20px;
+  width: 100%;
+}
+.home-section{
+  position: relative;
+  background: #f5f5f5;
+  min-height: 100vh;
+  width: calc(100% - 240px);
+  left: 240px;
+  transition: all 0.5s ease;
+}
+.sidebar.active ~ .home-section{
+  width: calc(100% - 60px);
+  left: 60px;
+}
+.home-section nav{
+  display: flex;
+  justify-content: space-between;
+  height: 80px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  position: fixed;
+  width: calc(100% - 240px);
+  left: 240px;
+  z-index: 100;
+  padding: 0 20px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  transition: all 0.5s ease;
+}
+.sidebar.active ~ .home-section nav{
+  left: 60px;
+  width: calc(100% - 60px);
+}
+.home-section nav .sidebar-button{
+  display: flex;
+  align-items: center;
+  font-size: 24px;
+  font-weight: 500;
+  
+}
+nav .sidebar-button i{
+  font-size: 35px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.home-section nav .profile-details{
+  display: flex;
+  align-items: center;
+  background: #F5F6FA;
+  border: 2px solid #EFEEF1;
+  border-radius: 6px;
+  height: 50px;
+  min-width: 190px;
+  padding: 0 15px 0 2px;
+}
+nav .profile-details img{
+  height: 40px;
+  width: 40px;
+  border-radius: 6px;
+  object-fit: cover;
+}
+nav .profile-details .admin_name{
+  font-size: 15px;
+  font-weight: 500;
+  color: #333;
+  margin: 0 10px;
+  white-space: nowrap;
+}
+nav .profile-details i{
+  font-size: 25px;
+  color: #333;
+}
+.home-section .home-content{
+  position: relative;
+  padding-top: 104px;
+}
+.home-content .overview-boxes{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding: 0 20px;
+  margin-bottom: 26px;
+}
+.overview-boxes .box{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(100% / 3 - 15px);
+  background: #fff;
+  padding: 15px 14px;
+  border-radius: 12px;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+}
+.overview-boxes .box-topic{
+  font-size: 25px;
+  font-weight: 500;
+}
+.home-content .box .number{
+  display: inline-block;
+  font-size: 35px;
+  margin-top: -6px;
+  font-weight: 500;
+}
+.home-content .box .indicator{
+  display: flex;
+  align-items: center;
+}
+.home-content .box .indicator i{
+  height: 20px;
+  width: 20px;
+  background: #8FDACB;
+  line-height: 20px;
+  text-align: center;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 20px;
+  margin-right: 5px;
+}
+.box .indicator i.down{
+  background: #e87d88;
+}
+.home-content .box .indicator .text{
+  font-size: 12px;
+}
+.home-content .box .cart{
+  display: inline-block;
+  font-size: 32px;
+  height: 50px;
+  width: 50px;
+  background: #cce5ff;
+  line-height: 50px;
+  text-align: center;
+  color: #66b0ff;
+  border-radius: 12px;
+  margin: -15px 0 0 6px;
+}
+.home-content .box .cart.two{
+   color: #2BD47D;
+   background: #C0F2D8;
+ }
+.home-content .box .cart.three{
+   color: #ffc233;
+   background: #ffe8b3;
+ }
+.home-content .box .cart.four{
+   color: #e05260;
+   background: #f7d4d7;
+ }
+.home-content .total-order{
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.home-content .sales-boxes.overview-box{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding: 0 20px;
+  margin-bottom: 26px;
+}
+
+
+.overview-box .boxes{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width:calc(100% / 3 - 15px);
+  
+  background: #fff;
+  padding: 15px 14px;
+  border-radius: 12px;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+  margin-left: 20px;
+
+  
+}
+
+.imag {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.overview-box .box-topic{
+ 
+  font-size: 20px;
+  font-weight: 500;
+}
+/* Responsive Media Query */
+@media (max-width: 1240px) {
+  .sidebar{
+    width: 60px;
+  }
+  .sidebar.active{
+    width: 220px;
+  }
+  .home-section{
+    width: calc(100% - 60px);
+    left: 60px;
+  }
+  .sidebar.active ~ .home-section{
+    /* width: calc(100% - 220px); */
+    overflow: hidden;
+    left: 220px;
+  }
+  .home-section nav{
+    width: calc(100% - 60px);
+    left: 60px;
+  }
+  .sidebar.active ~ .home-section nav{
+    width: calc(100% - 220px);
+    left: 220px;
+  }
+}
+@media (max-width: 1150px) {
+  .home-content .sales-boxes{
+    flex-direction: column;
+  }
+  .home-content .sales-boxes .box{
+    width: 100%;
+    overflow-x: scroll;
+    margin-bottom: 30px;
+  }
+  .home-content .sales-boxes .top-sales{
+    margin: 0;
+  }
+}
+@media (max-width: 1000px) {
+  .overview-boxes .box{
+    width: calc(100% / 2 - 15px);
+    margin-bottom: 15px;
+  }
+}
+@media (max-width: 700px) {
+  nav .sidebar-button .dashboard,
+  nav .profile-details .admin_name,
+  nav .profile-details i{
+    display: none;
+  }
+  .home-section nav .profile-details{
+    height: 50px;
+    min-width: 40px;
+  }
+  .home-content .sales-boxes .sales-details{
+    width: 560px;
+  }
+}
+@media (max-width: 550px) {
+  .overview-boxes .box{
+    width: 100%;
+    margin-bottom: 15px;
+  }
+  .sidebar.active ~ .home-section nav .profile-details{
+    display: none;
+  }
+}
+  @media (max-width: 400px) {
+  .sidebar{
+    width: 0;
+  }
+  .sidebar.active{
+    width: 60px;
+  }
+  .home-section{
+    width: 100%;
+    left: 0;
+  }
+  .sidebar.active ~ .home-section{
+    left: 60px;
+    width: calc(100% - 60px);
+  }
+  .home-section nav{
+    width: 100%;
+    left: 0;
+  }
+  .sidebar.active ~ .home-section nav{
+    left: 60px;
+    width: calc(100% - 60px);
+  }
+}
+/* CSS for the dropdown menu */
+.dropdown-content {
+  display: none; /* Hide the dropdown menu by default */
+  position: absolute;
+  background-color: #0bb9c5; /* Set the background color */
+  min-width: 200px;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2); /* Add a box shadow */
+  z-index: 1;
+}
+
+.dropdown-content li {
+  padding: 10px; /* Add padding to each dropdown option */
+}
+
+.dropdown-content li:hover {
+  background-color: #21a3ac; /* Change the background color of the hovered option */
+}
+
+/* Show the dropdown menu when the parent link is hovered */
+li:hover .dropdown-content {
+  display: block;
+}
+  
+.nav-links a.active,
+.nav-links a:hover {
+  background-color: #21a3ac;
+}
+
+/*medicalshop.html*/
+
+.shop-details {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.shop-details .shop-card {
+  width: calc(33.33% - 20px);
+  background-color: #f2f2f2;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.shop-details .shop-card:nth-child(3n+1) {
+  margin-right: 20px;
+}
+
+.shop-details .shop-card h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.shop-details .shop-card p {
+  margin: 5px 0;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+@media screen and (max-width: 768px) {
+  .shop-details .shop-card {
+    width: 100%;
+    margin-right: 0;
+  }
+}
+
+.notification-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 10px;
+  background-color: #f8f8f8;
+  color: #333;
+  font-size: 14px;
+  font-weight: bold;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  display: none;
+  z-index: 9999;
+}
+
+.notification-bar.active {
+  display: block;
+}
+
+.notification-close {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  font-size: 18px;
+  color: #999;
+}
+
+.notification-close:focus,
+.notification-close:hover {
+  color: #555;
+}
+/* Style for confirmation box */
+.confirmation-box {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+}
+
+.confirmation-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 20px;
+  text-align: center;
+
+}
+
+.confirmation-content h2 {
+  margin-top: 0;
+}
+
+.confirmation-buttons {
+  margin-top: 20px;
+
+}
+
+.confirmation-buttons button {
+  margin: 0 10px;
+  cursor: pointer;
+}
+
+.confirmation-buttons button:first-child {
+  background-color: #ddd;
+}
+
+.confirmation-buttons button:last-child {
+  background-color: #0bb9c5;
+  color: #fff;
+}
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+  margin: 0;
+  padding: 0;
+}
+
+.calendar {
+ max-height: 400px;
+  max-width: 400px;
+  margin: 30px auto;
+ margin-top: 45px;
+  margin-right: 20px;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+  position:static;
+  top: 255px;
+  right: 20px;
+}
+
+h1 {
+  text-align: center;
+  color: #0bb9c5;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  text-align: center;
+  padding: 10px;
+}
+
+
+td {
+  cursor: pointer;
+}
+
+td.today {
+ 
+  background-color: #0bb9c5;
+  border-radius: 50%;
+    color: #ffffff;
+}
+
+
+.navigation {
+  text-align: center;
+  margin-top: 10px;
+}
+
+button {
+  background-color: transparent;
+  color: #060000;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin: 0 5px;
+}
+
+button:hover {
+  background-color:transparent;
+}
+
+
+
+ /* Styles for the container div of the table */
+ .table-container {
+  margin-top: 30px;
+  max-width: 900px;
+  margin-left: -10px;
+  margin-right: 50px;
+  max-height: 400px; /* Set a fixed height for the container */
+  overflow-y: auto;
+}
+
+
+#usersTable {
+  border-collapse: separate;
+  background-color: #ffffff;
+  border-spacing: 5px;
+  width:750px;
+  margin-bottom: 120px;
+  margin-left: 20px;
+  min-height: 400px;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+}
+
+/* Unique identifier for table headers */
+#usersTable th, #usersTable td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ccc;
+}
+
+
+
+
+/* Unique identifier for reservation history link */
+#usersTable a {
+  color: #09b;
+  text-decoration:solid;
+}
+
+/* Add styles for the popup */
+.popup {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.popup-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  width: 1000px; /* Set the width of the popup */
+  max-height: 400px; /* Set the maximum height of the popup */
+  overflow-y: auto; /* Enable vertical scrolling */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.close-btn {
+  cursor: pointer;
+  position:absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 16px;
+  color: #777;
+}
+
+.close-btn:hover {
+  color: #333;
+}
+
+/* Style the reservation history table */
+#historyTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+#historyTable th,
+#historyTable td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+#historyTable th {
+  background-color: #f2f2f2;
+}
+
+#historyTable tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+#historyTable tr:hover {
+  background-color: #ddd;
+}
+h2{
+  color: #0bb9c5;
+}

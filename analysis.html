@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="UTF-8">
+        <title>My Profile</title>
+        <link rel="stylesheet" href="style.css">
+        <!-- Boxicons CDN Link -->
+        <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <body>
+        <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-database.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.35.5/apexcharts.min.js"></script>
+        <script src="js/scripts.js"></script>
+        <script src="path/to/chart.js"></script>
+        
+  
+        <div class="sidebar">
+            <div class="logo-details">
+            <span class="logo_name">&nbsp;&nbsp;MEDIBID</span>
+            </div>
+            <ul class="nav-links">
+            <li>
+                <a href="admin_dashboard.html" >
+                <i class='bx bx-grid-alt' ></i>
+                <span>Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a href="medicalshop.html">
+                <i class='bx bx-store' ></i>
+                <span >Medical shop</span>
+                </a> 
+            </li>
+            <li>
+                <a href="reservation.html" >
+                <i class='bx bx-cart' ></i>
+                <span>Reservation list</span>
+                </a>
+            </li>
+            <li>
+                <a href="analysis.html" class="active">
+                <i class='bx bx-pie-chart-alt-2' ></i>
+                <span>Analytics</span>
+                </a>
+            </li>
+          
+          
+            </ul>
+        </div>
+
+        <section class="home-section">
+            <nav>
+                <div class="sidebar-button">
+                    <i class='bx bx-menu sidebarBtn'></i>
+                    <span class="dashboard">Analysis</span>
+                </div>
+                
+                <div class="profile-details">
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC0AAAAtCAYAAAA6GuKaAAAAAXNSR0IArs4c6QAABVRJREFUaEPtmV1sFFUYht9vtq10ZwtVUw0EJIrIb4hEEbqzrdaUzkJKvDFR1AvRGC/8iSGgERJFhahEb4gxxkQxIcR4YYxSYGchWenuTFEr+E8gBpUIqEAQu7OU0j2fGaC17M7Pmd2a2MS53Hnf93v22zPnnDlLGIMXjUFm/A899KuN25W9jkCTGHysf3HLkdH+NavudDTVPRGIdIKgEzAPwPQySMYhJnwDcIoiNV12+6Lfq/kiFUOraWs5BK8GYX54APpSEDac7Yh/FN6L8GO63sguVKC8AeDWSgqO9DDYBOGpQkeiN0yWfKfXsaIusl4G4ekwBSS0zMzrCsnEixLaCxIp6MZMpvH8QN2HAO6UDa5A12Ujfy903Q7yBkJP6MpeOVir9ACYERRW9X3G/ugVA60n2tryfln+0L29tbFT5/Yw0Fw1kGwAw7D1+BIQsZfFF1o1clsBuk+23qjpGBvtpPZMaOiokV1GUD4ZNZCQQUy8wGtW8ey0mra+B/PskLUc+QcAv0OCz7NCtWBaAcLyCnKytq61uvlcodWU6RR6N2ShrCL4kb4liYOlvtiO7tlcE3kPjAVhMhm0rKDHu0o97tBG7jBA14cocLS+n2edvCvR5+Vp2P3Z1aI4eAjAVbK5DFgFXdMCoaO7rPkkeJ9s8AUd4yE7qW0O8qhGbjVAG4N0I+8zFycVkq3HR35W1umYYa5nYG2YYLuBoojHzwZ5nM0VUeRYkK4E8LG8rr3pC60a5ncA5oQIPmLr2lRZvWqYzg7vGlk9nHk7qSW9oZlJTVtF2eX9UtBpW9ekx6lqmH8CmCANDRy3dW2SJ/Slh+VkiMCLQ9pl3LlljE/vnV7kovMwhrnYrhuoQ1vb4JDpsjEd29Uzi4X4IUziRS2/YuuJZ4N8UcPcRMATQbrS+8WImNbf3nLYFbp+p9msKLDChjp6EqItv6TlUy9v1LA6CbytkmyhcPPZxYm9rtANu7M3iaJStjjIFmLQowU9/napXk2bK8F4XTanVBdhmv5XMv6jK3RTJhMrDNR5LhCSRZ0HzQLhABjznB0iATFJr6usdEotm6dVI5cHSK2myCh7z9i61jgy0wXa2gvwwlEuXHGc8x5Z0BMJX+hoOreGmDaErPIzM28mwi/gyFHiweHpiammBoqYzIypBDwMYEqobMYqO6ld9jyUdbrBsGYK8AHJ4D8AXmnria2Seqhp80EwnP1Hk4yniMEb+vXbf/LttHNTNUwHeqZfKAEfR86LFWc6W07LFB+pie3obmIlssU54Anw7rN17ZZSjfvWNG0+AMYWn8CM3RNvxzoSYYGH9b29tdFT/RkClW09h6c2xt35pOacAlx2eb+5GOa3AOa6QSkRMaOvvSXsclwW5bsCE76wO7Tb3Op7Q6esJIh3enTyV0Vwu9tbimznY6ncHCZKAZjs2hiQ1qfHXVdn37fxmJF7y1nlPEDOEPBcXtc2yYIO6WKG+SQDLwEY7+7l12w9sdorN/CwRk1bGTDf4RNwWIA2FBrwvu+LwLbeaLT23P2kYC0Y3vtvwna7Q+sMmAT8+yR7wsRAXgFvZVIOEIvfmJSTxNzERNeS4LlMvDxwpWXstynfEnQ0Fthp5yuNubO84d/BOTVtNl8FaFXYMRygFww8X9C19bK5Up0eGdaQ7tEEC+d8+mbZIl46Z19BRI/bHdpXYbJCQ/8zA+TuYWANQM5fFmGvz5n4hUJHYkdYo6OvGHqoWL2xZwpR7VKFOSmAuQTc6AJyEERfQ3AXiWIqv7T1RCWwQ56qod2Kj9tuTqU6nvif/Xermo5V6v1XOl0pjKxvTEL/DZlb7D1kArybAAAAAElFTkSuQmCC"/>
+                    <label for="username" id="usernameLabel">&nbsp;User Name</label>
+                    <span class="admin_name" id="username"></span>
+                </div>
+            </nav>
+            
+            <div class="reserve-chart">
+                <canvas id="reservationChart"></canvas>
+                <canvas id="chart" ></canvas>
+            </div>  
+            
+            
+        
+            <!-- ApexCharts -->
+             <script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.35.5/apexcharts.min.js"></script>
+             <!-- Custom JS 
+             <script src="js/scripts.js"></script>
+             </div>
+            -->
+
+           <style>
+            .charts {
+              display: flex;
+              justify-content: space-between;
+              margin-top: 60px;
+            }
+            
+            .charts-card {
+              background-color: #ffffff;
+              margin-bottom: 20px;
+              padding: 25px;
+              box-sizing: border-box;
+              border-radius: 5px;
+              box-shadow: 0 6px 7px -4px rgba(0, 0, 0, 0.2);
+            }
+            
+            .chart-title {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            }
+            
+            .chart-container {
+              display: flex;
+              max-width: 800px;
+              max-height: 600px;
+            }
+            
+            #bar-chart {
+              flex: 1;
+              margin-right: 40px;
+            }
+            
+            #line-chart {
+              flex: 1;
+              justify-content: flex-end; /* Align to the right */
+
+            }
+
+    
+
+          </style>
+    
+    <style>
+  
+   
+  
+      .chart-container {
+        display: flex;
+        max-width: 800px;
+        max-height: 600px;
+      }
+    #line-chart {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 100vh;
+
+    margin-right: 0;
+    padding: 0;
+  }
+  
+  
+  
+      #bar-chart {
+        flex: 1;
+        margin-right: 40px;
+      }
+  
+      #line-chart {
+        flex: 1;
+        justify-content: flex-end;
+        #chartContainer {
+  position: relative;
+  left: 20px; /* Adjust the value as needed */
+}
+
+      }
+    
+      #chart {
+        max-width: 400px;
+        max-height: 300px;
+
+      }
+    
+    </style>
+  
+ <style>
+  .charts {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 60px;
+  }
+
+  .charts-card {
+    background-color: #ffffff;
+    margin-bottom: 20px;
+    padding: 25px;
+    box-sizing: border-box;
+    border-radius: 5px;
+    box-shadow: 0 6px 7px -4px rgba(0, 0, 0, 0.2);
+  }
+
+  .chart-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+  }
+  #chart {
+  margin-left: 700px; /* Adjust the value as needed */
+  position:absolute;
+  top: 130px;
+  left: 0;
+
+}
+
+ 
+
+
+</style>
+
+
+   <script>
+    const firebaseConfig = {
+    apiKey: "AIzaSyBr6DfSQdrr8nj7l5_zJXZhKJMk1puWbR0",
+    authDomain: "fir-73e54.firebaseapp.com",
+    databaseURL: "https://fir-73e54-default-rtdb.firebaseio.com",
+    projectId: "fir-73e54",
+    storageBucket: "fir-73e54.appspot.com",
+    messagingSenderId: "578007925758",
+    appId: "1:578007925758:web:df4216c180067bc3dd76af",
+    measurementId: "G-BBB402HQTG"
+  };
+ 
+
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  firebase
+  .database()
+  .ref('reservation')
+  .once('value')
+  .then(function(snapshot) {
+    var reservationData = snapshot.val();
+
+    // Group the reservations by date
+    var reservationsByDate = {};
+    for (var reservationId in reservationData) {
+      var reservation = reservationData[reservationId];
+      var date = reservation.date;
+      if (reservationsByDate[date]) {
+        reservationsByDate[date]++;
+      } else {
+        reservationsByDate[date] = 1;
+      }
+    }
+    
+
+    // Sort the dates in ascending order
+    var sortedDates = Object.keys(reservationsByDate).sort(function(a, b) {
+      return new Date(a) - new Date(b);
+    });
+
+    // Get the last 15 dates
+    var last15Dates = sortedDates.slice(-15);
+   
+    // Convert the dates to the desired format (dd/mm/yyyy)
+    var formattedDates = last15Dates.map(function(date) {
+    var d = new Date(date);
+    var day = d.getDate().toString().padStart(2, '0');
+    var month = (d.getMonth() + 1).toString().padStart(2, '0');
+    var year = d.getFullYear().toString();
+    return day + '/' + month + '/' + year;
+    });
+
+    // Get the reservation counts for the last 15 dates
+    var counts = last15Dates.map(function(date) {
+      return reservationsByDate[date];
+    });
+
+    // Create the data object for the bar chart
+    var data = {
+      title: "Reservation Count Chart", // Title for the chart
+      labels: formattedDates,
+      datasets: [{
+        label: 'Reservation Count',
+        data: counts,
+        backgroundColor: 'rgba(54, 162, 235, 0.5)', // Bar color
+        borderColor: 'rgba(54, 162, 235, 1)', // Border color
+        borderWidth: 1
+      }]
+    };
+
+ // Create a bar chart
+
+
+    var ctx = document.querySelector('#reservationChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'bar',
+      data: data,
+      options: {
+        
+        scales: {
+          x: {
+            title: {
+              display: true,
+              text: 'Date'
+            }
+          },
+          y: {
+            title: {
+              display: true,
+              text: 'Reservation Count'
+             
+            },
+            ticks: {
+              beginAtZero: true
+            },
+            grid: {
+          display: false
+        }
+          }
+        },
+      
+    responsive: true,
+    barThickness: 30 ,// Adjust the bar thickness here
+    barSpacing: 50, // Adjust the space between bars here
+    layout: {
+      padding: {
+        left: 50,
+        right: 750,
+        top: 150,
+        bottom: 200
+      },
+    // Add chart title
+    plugins: {
+      title: {
+        display: true,
+        text: 'Reservation Chart',
+        padding: {
+          top: 50,
+          bottom: 50,
+          left: 50
+        },
+        font: {
+          size: 16,
+          weight: 'bold'
+    }
+  }
+  }
+    }
+      }
+
+    });
+  });
+  
+  
+    // Initialize Firebase
+    
+
+    // Reference to the Firebase database
+    const database = firebase.database().ref('reservation');
+
+    // Fetch reservation data from Firebase
+    database.once('value').then((snapshot) => {
+      const reservationData = snapshot.val();
+
+      // Prepare the data for plotting
+      const purchasedItemsByDate = {};
+      const pendingItemsByDate = {};
+      const cancelledItemsByDate = {};
+
+      for (const reservationId in reservationData) {
+        const reservation = reservationData[reservationId];
+        const status = reservation.status;
+        const date = new Date(reservation.date);
+
+        if (status === 'purchased' || status === 'pending' || status === 'cancelled') {
+          // Extract purchased and pending items from reservation
+          const purchasedItems = status === 'purchased' ? reservation.qty : 0;
+          const pendingItems = status === 'pending' ? reservation.qty : 0;
+          const cancelledItems = status === 'cancelled' ? reservation.qty : 0;
+          const formattedDate = date.toLocaleDateString('en-GB', {
+           day: '2-digit',
+           month: '2-digit',
+           year: 'numeric'
+           });
+
+          // Count purchased and pending items by date
+          if (formattedDate in purchasedItemsByDate) {
+            purchasedItemsByDate[formattedDate] += purchasedItems;
+          } else {
+            purchasedItemsByDate[formattedDate] = purchasedItems;
+          }
+
+          if (formattedDate in pendingItemsByDate) {
+            pendingItemsByDate[formattedDate] += pendingItems;
+          } else {
+            pendingItemsByDate[formattedDate] = pendingItems;
+          }
+
+          if (formattedDate in cancelledItemsByDate) {
+            cancelledItemsByDate[formattedDate] += cancelledItems;
+          } else {
+            cancelledItemsByDate[formattedDate] =cancelledItems;
+          }
+        }
+      }
+
+      // Prepare data for plotting
+      const dates = Object.keys(purchasedItemsByDate);
+      const purchasedItemsCount = Object.values(purchasedItemsByDate);
+      const pendingItemsCount = Object.values(pendingItemsByDate);
+      const cancelledItemsCount = Object.values(cancelledItemsByDate);
+      
+
+      // Plot the graph
+      const ctx = document.getElementById('chart').getContext('2d');
+      new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: dates,
+          
+          datasets: [
+            {
+              label: 'Purchased Items',
+              data: purchasedItemsCount,
+              backgroundColor: 'rgba(0, 255, 0, 0.2)', // Bar color (green)
+              borderColor: 'rgba(0, 255, 0, 1)', // Border color (green)
+              borderWidth: 1
+            },
+            {
+              label: 'Pending Items',
+              data: pendingItemsCount,
+              backgroundColor: 'rgba(75, 192, 192, 0.2)',
+              borderColor: 'rgba(75, 192, 192, 1)',
+              borderWidth: 1
+            },
+           
+            {
+              label: 'Cancelled Items',
+              data: cancelledItemsCount,
+              backgroundColor: 'rgba(255, 99, 132, 0.2)',
+              borderColor: 'rgba(255, 99, 132, 1)',
+              borderWidth: 1
+            }
+          ]
+        },
+
+  options: {
+    scales: {
+      x: {
+        display: true,
+        title: {
+          display: true,
+          text: 'Date' // X-axis label text
+        }
+      },
+      y: {
+        display: true,
+        title: {
+          display: true,
+          text: 'Item Count' // Y-axis label text
+        }
+      }
+    }
+  }
+
+
+        
+      });
+    });
+    // Retrieve the username from the localStorage
+ var username = localStorage.getItem("username");
+
+
+// Get references to the label and span elements
+var usernameLabel = document.getElementById("usernameLabel");
+var usernameSpan = document.getElementById("username");
+
+// Set the value of the span element and hide the label
+usernameSpan.innerText = username;
+usernameLabel.style.display = "none";
+</script>
+  
+ 
+
+
+</script>
+
+</section>
+     
+</body>
+</html>
+  
+
+
+

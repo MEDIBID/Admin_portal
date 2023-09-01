@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   
+    <title> MEDIBID | ADMIN </title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Boxicons CDN Link -->
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <!-- FullCalendar CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css">
+
+
+
+   </head>
+<body>
+  <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-database.js"></script>
+  <!-- FullCalendar JS --><!-- Moment.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
+<!-- FullCalendar JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
+
+  <div class="sidebar">
+    <div class="logo-details">
+      <span class="logo_name">&nbsp;&nbsp;MEDIBID</span>
+    </div>
+    <ul class="nav-links">
+      <li>
+        <a href="admin_dashboard.html" class="active">
+          <i class='bx bx-grid-alt' ></i>
+          <span>Dashboard</span>
+        </a>
+      </li>
+      <li>
+        <a href="medicalshop.html">
+          <i class='bx bx-store' ></i>
+          <span >Pharmacy</span>
+        </a> 
+      </li>
+      <li>
+        <a href="reservation.html">
+          <i class='bx bx-cart' ></i>
+          <span>Reservation list</span>
+        </a>
+      </li>
+      <li>
+        <a href="analysis.html">
+          <i class='bx bx-pie-chart-alt-2' ></i>
+          <span>Analytics</span>
+        </a>
+      </li>
+     <!-- <li>
+        <a href="users.html">
+          <i class='bx bx-user' ></i>
+          <span>Customer</span>
+        </a>
+      </li>-->
+        <a href="#" onclick="logout()" class="log_out">
+          <i class='bx bx-log-out'></i>
+          <span>Log out</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <section class="home-section">
+    <nav>
+      <div class="sidebar-button">
+        <i class='bx bx-menu sidebarBtn'></i>
+        <span class="dashboard">Dashboard</span>
+      </div>
+      
+      <div class="profile-details">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC0AAAAtCAYAAAA6GuKaAAAAAXNSR0IArs4c6QAABVRJREFUaEPtmV1sFFUYht9vtq10ZwtVUw0EJIrIb4hEEbqzrdaUzkJKvDFR1AvRGC/8iSGgERJFhahEb4gxxkQxIcR4YYxSYGchWenuTFEr+E8gBpUIqEAQu7OU0j2fGaC17M7Pmd2a2MS53Hnf93v22zPnnDlLGIMXjUFm/A899KuN25W9jkCTGHysf3HLkdH+NavudDTVPRGIdIKgEzAPwPQySMYhJnwDcIoiNV12+6Lfq/kiFUOraWs5BK8GYX54APpSEDac7Yh/FN6L8GO63sguVKC8AeDWSgqO9DDYBOGpQkeiN0yWfKfXsaIusl4G4ekwBSS0zMzrCsnEixLaCxIp6MZMpvH8QN2HAO6UDa5A12Ujfy903Q7yBkJP6MpeOVir9ACYERRW9X3G/ugVA60n2tryfln+0L29tbFT5/Yw0Fw1kGwAw7D1+BIQsZfFF1o1clsBuk+23qjpGBvtpPZMaOiokV1GUD4ZNZCQQUy8wGtW8ey0mra+B/PskLUc+QcAv0OCz7NCtWBaAcLyCnKytq61uvlcodWU6RR6N2ShrCL4kb4liYOlvtiO7tlcE3kPjAVhMhm0rKDHu0o97tBG7jBA14cocLS+n2edvCvR5+Vp2P3Z1aI4eAjAVbK5DFgFXdMCoaO7rPkkeJ9s8AUd4yE7qW0O8qhGbjVAG4N0I+8zFycVkq3HR35W1umYYa5nYG2YYLuBoojHzwZ5nM0VUeRYkK4E8LG8rr3pC60a5ncA5oQIPmLr2lRZvWqYzg7vGlk9nHk7qSW9oZlJTVtF2eX9UtBpW9ekx6lqmH8CmCANDRy3dW2SJ/Slh+VkiMCLQ9pl3LlljE/vnV7kovMwhrnYrhuoQ1vb4JDpsjEd29Uzi4X4IUziRS2/YuuJZ4N8UcPcRMATQbrS+8WImNbf3nLYFbp+p9msKLDChjp6EqItv6TlUy9v1LA6CbytkmyhcPPZxYm9rtANu7M3iaJStjjIFmLQowU9/napXk2bK8F4XTanVBdhmv5XMv6jK3RTJhMrDNR5LhCSRZ0HzQLhABjznB0iATFJr6usdEotm6dVI5cHSK2myCh7z9i61jgy0wXa2gvwwlEuXHGc8x5Z0BMJX+hoOreGmDaErPIzM28mwi/gyFHiweHpiammBoqYzIypBDwMYEqobMYqO6ld9jyUdbrBsGYK8AHJ4D8AXmnria2Seqhp80EwnP1Hk4yniMEb+vXbf/LttHNTNUwHeqZfKAEfR86LFWc6W07LFB+pie3obmIlssU54Anw7rN17ZZSjfvWNG0+AMYWn8CM3RNvxzoSYYGH9b29tdFT/RkClW09h6c2xt35pOacAlx2eb+5GOa3AOa6QSkRMaOvvSXsclwW5bsCE76wO7Tb3Op7Q6esJIh3enTyV0Vwu9tbimznY6ncHCZKAZjs2hiQ1qfHXVdn37fxmJF7y1nlPEDOEPBcXtc2yYIO6WKG+SQDLwEY7+7l12w9sdorN/CwRk1bGTDf4RNwWIA2FBrwvu+LwLbeaLT23P2kYC0Y3vtvwna7Q+sMmAT8+yR7wsRAXgFvZVIOEIvfmJSTxNzERNeS4LlMvDxwpWXstynfEnQ0Fthp5yuNubO84d/BOTVtNl8FaFXYMRygFww8X9C19bK5Up0eGdaQ7tEEC+d8+mbZIl46Z19BRI/bHdpXYbJCQ/8zA+TuYWANQM5fFmGvz5n4hUJHYkdYo6OvGHqoWL2xZwpR7VKFOSmAuQTc6AJyEERfQ3AXiWIqv7T1RCWwQ56qod2Kj9tuTqU6nvif/Xermo5V6v1XOl0pjKxvTEL/DZlb7D1kArybAAAAAElFTkSuQmCC"/>
+        <label for="username" id="usernameLabel">&nbsp;User Name</label>
+        <span class="admin_name" id="username"></span>
+      </div>
+    </nav>
+
+    <div class="home-content">
+      <div class="overview-boxes">
+        <div class="box">
+          <div class="right-side">
+            <div class="box-topic">Total Customer</div>
+            <div class="number" id="usersCount"></div>
+            <div class="indicator">
+              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAAXNSR0IArs4c6QAAAxBJREFUSEvFlk9IFGEYxp93d9VyXJUKoqJSqCjs0EVcnTWDckfUgi5WBNEpokMIEhRdIsqkIpBOniKIKCE6mOS4whbsrpIKXcIi+kdpURlqO65uO/PGrru2s/9mNMW5zvM+v+9555vvewkr9NAKcbEwcGen1V682aGxWgJYNkQXzRjTmD8Ef4++QFOTajaIKXBh78B2FeoFMA4DKM5gPk6Mx2Gbdm3mQPV7owVkB3cN5efnzrYRcAaA1cgs9j5EwI3AZPFlNJWFMtVkBK/q9m212tANoMwkUC8jDBKjMSCJ39PVpwUXuPt3saZ5AaxZFPRf0aiGcGVQqvmc7JMCFvoG1kNVhwFs+k9ovHxEQaAckqQk+qWCZd8DAEdMQGdjmjxDLaNdqRObM4Ltsn+nBh4xNAL+ANwwp6PIPsgxqAkxqyXTdXu/xnW6xILsvQvQCQOTMCzUqNRWyRGd4PZL0PgJAFu2OmK0BurEi6ngzle5QtHETwD2LAbRpIrkdCdqBNlbayL5R0USS1PAQq9/P5j7skB1SZN1ZpJbybpjyuV4G/1AcQOh13cSjDsZwGmTpsANkjO0Q9NSdZceLHvPAXQ9DdgUdD5ANjhRs+KqateDe3wtINw0saMjkueKJO6Lbi7Z9wxAjak6QoviEm8ltdp/DMz3TRksEkzgowHJ+VAHXu32Oiwa9S8nmInLp13OIR0YzCT0+n8AWGsCvohW8zfFJW4EEevBAApkXwcDp5YDzMDtaUk8m/bkKuzxb1OJ3wCwGMAXmljVEC5NvKXSXRL3ABw3AE8CeBnT7AFQlPW4BHcEJOfpRE0K2O7xrNNCuYMASky03IzkdZ5qrfhV75jKCo68jM5YrA4swSAwpqnWimC940vyCjOPPk/7S6wWLXK87TYTK1VDw8zhg4lXoWHieYEsCwKEKwBFdqPRhouXhYioLTBRdHVRw17i6uYGBJwHODLeFmbowDgBj8JhtM40iJ+MumRqrp438Xhs9tmcSo2wRTfQk/ou2O8cxCXSjIBp/2OzRUuhW1jipSDGPP4CnpwuLnNx4K0AAAAASUVORK5CYII="/>
+              <span class="text">till now</span>
+            </div>
+          </div>
+          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC0AAAAtCAYAAAA6GuKaAAAAAXNSR0IArs4c6QAAA31JREFUaEPtmElo1FAYx/9fquI0pYIg7stBPYiIC6jNm4KldjJaDy43UWg9eFD04KHgoSqKiogHPSiouOLR2oNLJm5IJ7EqFEHQqwvSIoKKk2lpO/lkaovaOk3y3rRQ6Fzff/m9L28ymRDG4IfGIDPGoQeuWuyxOxu+Pxea9qmz2vhc7KtZtEmXW+7CXuIDBGwFMP0v0HYmuu1T7nRXTeXHYmygKNC65ZwCoSEIiIkOZRPGsSBd0LoydFkq3cSgLUFFf9bpumcadeH1Q5VK0HoqfRCgE1EBCNiTMcWFqL4BvTR0ueVOzZH/ESA9cjnjq1dO82AYnZG9gPwtT7edBjBOyZT2eRi7vKS4KuOXnnSp5bQQIS5T2sdM1JRNGNtk/NLQuu28B2O+TGm/551niiUyfnnolNMx6H4ctb/dM8WsqKa8XgX6DYClMqX9njbPFKtk/PLQtnMFjHqZ0t/fQ5zPmmKvjF8eOpWuAciWKc17fB9G5wbxXMYvDZ0v0y2nDYQVEsUPPVMkJHx9FiXospSzlIGXAGIRAL7lfG1l14aK9xE8/0iVoPNJZVa6ionuAJgSDMEdzCW12WRFW7C2sEIZOh89+cHzBSVa7jhA2wtVEXARQGPGFF9UgJWPx+Dy2P3WOdoEfxuYl4ExmwgffOJXJRN7mn9WVX1VhR3wF2XSxYIJmzMOHXZSqjqlSeefqXvJXwNoM0H+DI1pUiEgn7gbrHUAfvvEHm79sanymyy8FHSZ7e71mbcTYMgWA2hh4hvZRPxy1IxI0LrlJkF8DsCiqEUF9URviXlfxhRPwmaGg376dILePekMgP1hgyPqmBgnM61GI46QH+QNBa1bziMQqoPCVNcJaM6YIvCffSC0nnLOjuCEh+yTmQ9nk/Gjww1gWOhSO72RmO6pTjCq39e4orMm3jrMI0GBpSOs6WvddyAsjlqqqmdGOpsUlZGhddvZAcZNVQBpP9F6L2E8/p+/4PHQbecuGLXSpYpGAi5lTLE7PLTrxvSf/B1AwV84RaZge/4tVFJMCw0ds9zVGvGL4OSRVeR6saCrVnwY3PLf41FqObVEuDuySMHpRLQukzCehYLWLWcnCDeCY0dawTs8M34rHLTt1IEh9XKwqNsg1HsJcS0s9HJibC4qgEQYE5q9hHgdCloif1Qtgc8eo0oTsmwcOuSglGVjctK/AB8DBj0hF/+rAAAAAElFTkSuQmCC"/>
+        </div>
+        <div class="box">
+          <div class="right-side">
+            <div class="box-topic">Total Pharmacy</div>
+            <div class="number" id="medicalShopsCount"></div>
+            <div class="indicator">
+              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAAXNSR0IArs4c6QAAAxBJREFUSEvFlk9IFGEYxp93d9VyXJUKoqJSqCjs0EVcnTWDckfUgi5WBNEpokMIEhRdIsqkIpBOniKIKCE6mOS4whbsrpIKXcIi+kdpURlqO65uO/PGrru2s/9mNMW5zvM+v+9555vvewkr9NAKcbEwcGen1V682aGxWgJYNkQXzRjTmD8Ef4++QFOTajaIKXBh78B2FeoFMA4DKM5gPk6Mx2Gbdm3mQPV7owVkB3cN5efnzrYRcAaA1cgs9j5EwI3AZPFlNJWFMtVkBK/q9m212tANoMwkUC8jDBKjMSCJ39PVpwUXuPt3saZ5AaxZFPRf0aiGcGVQqvmc7JMCFvoG1kNVhwFs+k9ovHxEQaAckqQk+qWCZd8DAEdMQGdjmjxDLaNdqRObM4Ltsn+nBh4xNAL+ANwwp6PIPsgxqAkxqyXTdXu/xnW6xILsvQvQCQOTMCzUqNRWyRGd4PZL0PgJAFu2OmK0BurEi6ngzle5QtHETwD2LAbRpIrkdCdqBNlbayL5R0USS1PAQq9/P5j7skB1SZN1ZpJbybpjyuV4G/1AcQOh13cSjDsZwGmTpsANkjO0Q9NSdZceLHvPAXQ9DdgUdD5ANjhRs+KqateDe3wtINw0saMjkueKJO6Lbi7Z9wxAjak6QoviEm8ltdp/DMz3TRksEkzgowHJ+VAHXu32Oiwa9S8nmInLp13OIR0YzCT0+n8AWGsCvohW8zfFJW4EEevBAApkXwcDp5YDzMDtaUk8m/bkKuzxb1OJ3wCwGMAXmljVEC5NvKXSXRL3ABw3AE8CeBnT7AFQlPW4BHcEJOfpRE0K2O7xrNNCuYMASky03IzkdZ5qrfhV75jKCo68jM5YrA4swSAwpqnWimC940vyCjOPPk/7S6wWLXK87TYTK1VDw8zhg4lXoWHieYEsCwKEKwBFdqPRhouXhYioLTBRdHVRw17i6uYGBJwHODLeFmbowDgBj8JhtM40iJ+MumRqrp438Xhs9tmcSo2wRTfQk/ou2O8cxCXSjIBp/2OzRUuhW1jipSDGPP4CnpwuLnNx4K0AAAAASUVORK5CYII="/>
+              <span class="text">till now</span>
+            </div>
+          </div>
+          <img src="data:image/png;base64,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"/>
+        </div>
+        <div class="box">
+          <div class="right-side">
+            <div class="box-topic">Total Reservation</div>
+            <div class="number" id="totalReservations"></div>
+            <div class="indicator">
+              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAAXNSR0IArs4c6QAAAxBJREFUSEvFlk9IFGEYxp93d9VyXJUKoqJSqCjs0EVcnTWDckfUgi5WBNEpokMIEhRdIsqkIpBOniKIKCE6mOS4whbsrpIKXcIi+kdpURlqO65uO/PGrru2s/9mNMW5zvM+v+9555vvewkr9NAKcbEwcGen1V682aGxWgJYNkQXzRjTmD8Ef4++QFOTajaIKXBh78B2FeoFMA4DKM5gPk6Mx2Gbdm3mQPV7owVkB3cN5efnzrYRcAaA1cgs9j5EwI3AZPFlNJWFMtVkBK/q9m212tANoMwkUC8jDBKjMSCJ39PVpwUXuPt3saZ5AaxZFPRf0aiGcGVQqvmc7JMCFvoG1kNVhwFs+k9ovHxEQaAckqQk+qWCZd8DAEdMQGdjmjxDLaNdqRObM4Ltsn+nBh4xNAL+ANwwp6PIPsgxqAkxqyXTdXu/xnW6xILsvQvQCQOTMCzUqNRWyRGd4PZL0PgJAFu2OmK0BurEi6ngzle5QtHETwD2LAbRpIrkdCdqBNlbayL5R0USS1PAQq9/P5j7skB1SZN1ZpJbybpjyuV4G/1AcQOh13cSjDsZwGmTpsANkjO0Q9NSdZceLHvPAXQ9DdgUdD5ANjhRs+KqateDe3wtINw0saMjkueKJO6Lbi7Z9wxAjak6QoviEm8ltdp/DMz3TRksEkzgowHJ+VAHXu32Oiwa9S8nmInLp13OIR0YzCT0+n8AWGsCvohW8zfFJW4EEevBAApkXwcDp5YDzMDtaUk8m/bkKuzxb1OJ3wCwGMAXmljVEC5NvKXSXRL3ABw3AE8CeBnT7AFQlPW4BHcEJOfpRE0K2O7xrNNCuYMASky03IzkdZ5qrfhV75jKCo68jM5YrA4swSAwpqnWimC940vyCjOPPk/7S6wWLXK87TYTK1VDw8zhg4lXoWHieYEsCwKEKwBFdqPRhouXhYioLTBRdHVRw17i6uYGBJwHODLeFmbowDgBj8JhtM40iJ+MumRqrp438Xhs9tmcSo2wRTfQk/ou2O8cxCXSjIBp/2OzRUuhW1jipSDGPP4CnpwuLnNx4K0AAAAASUVORK5CYII="/>
+              <span class="text">till now</span>
+            </div>
+          </div>
+          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC0AAAAtCAYAAAA6GuKaAAAAAXNSR0IArs4c6QAAA6RJREFUaEPtmF2IE1cUx/9nJnV1ZnW1iliwKLa++KK++JGb1YrsTFbBvlZLQVlEEERfRBGEti+2fSktorAISh8UH/rQ0mYzsTWomfjxUEqpT4sfCOv6IKJrbtxdN3NkgglxN8nMbm6yu+A85p5z/j/+OffMnUuYhQ/NQma8h27Vvzb7nV6YTi8cG46sq3TMI201sX5bdm/6r1VOBum843R7343PWNPS1ZKY6HTeih4KKtiK9dDQAFjTvC0vuzozrQCrpzEZaL/OHWmLjTMKem7fzZURzdtbCcVAD4Dl5d8I66Ul/p1O8MDpYTqZowD9UIIkxrlcXOyf0dDz/7q92CuMDQBoews60lbQlz7bsWlousADnfbBzKR7HoRy2xBwOGeLn2c0tHElu548/qcMyXgKwt3mQ9MQA715O/pHpVYop4tuO9lbAE/L5Cho3orhrs5H5X0V1i0z6X4Fwi9h41XGRQr49MUOcW/S0Egk2ky9w9+Qi1UCBdfiB9KOrZpSexRbJOV+B8axYCGVEXxC2rFTU4ae51z7WEPkIQBNJVadWszEy/NW7PGUof3E9qT7GxN2tQg6JW1hj9cKPT1KiWbKtcBwWgJNtEda0UsNQ4OZjFS2n4BPmgvOUs55vQTbtg03Dl18Q2aPgPjHZkIT0JuzxYFqGpNuD7/Ih4lbC0b0wiAAo1ngnofoq25xUxl0cUM6bi8DTTrtTZzNDU2PUnJ74voa1vUmnT8mzmYl0H4Rw8lkCCQUt0jV2awM2kxld4P5omLoqrNZGTTS6Yg5OueJ0vNIjdmsDrr4hsx8y0Qn1bhdezYrhTaS1z8i0u8DmNsoOANn87Y4GFRnSnN6fFHDyXQT6AyAlUGCtdYJuO9xIZaPb/Hnf91HCXSQiOp1ddCJRFu73rFRo7HBIWtrf1jQ+X03Yqxpz3O2+D9sjhJooy+zi4gugLCoKEz0k7SiR+pBzEtmN+jElxh4+1XCF6Ud+zIMuBJoM+U+BGNFpSATf563Yr/Xgqj2YiLmQ7l47HQQeMPQ/lWarnkPxgsx8HXeFt/UAjAdlyesMS7IuNjXdGhfwEy6z8qtUVL0vD2yu3PCAb60bDqufx+49h1AxnEZF9+3BNpwsj0EPlchdlna4ot64sYVdyd5/CtApeu2q9IW24OAi1smTFCYmAWpa6sL3geboWFAWtG/w+SY6TvLMFrYzpr3PN8l/gyToxQ6rKCKOGVOq4AJW+M9dFinGo2blU6/AT13KD3H3QtVAAAAAElFTkSuQmCC"/>
+        </div>
+        <hr style="width: 100%;margin-left:0;margin-top: 20px;">
+        
+       
+
+        <div class="table-container">
+         
+          <table id="usersTable">
+            <thead>
+              <tr>
+                <th>S No.</th>
+                <th>User Number</th>
+                <th>User Name</th>
+                
+                <th>Reservation History</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody">
+              <!-- Data from Firebase will be added here -->
+            </tbody>
+          </table>
+        </div>
+           <!-- The popup div -->
+           <div class="popup" id="popup">
+            <div class="popup-content">
+              <span class="close-btn" onclick="closePopup()">&times;</span>
+              <h2>Reservation History</h2>
+              <table id="historyTable">
+                <thead>
+                  <tr>
+                    <th>Reservation Date</th>
+                    <th>Time</th>
+                    <th>Medicine Name</th>
+                    <th>Pharmacy</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Status</th>
+                    
+                  </tr>
+                </thead>
+                <tbody id="historyTableBody">
+                  <!-- Reservation history details will be added here -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        <div class="calendar">
+        <h1 id="month-title"></h1>
+        <div id="calendar-container"></div>
+        <div class="navigation">
+            <button id="prev-month">Previous Month</button>
+            <button id="next-month">Next Month</button>
+        </div>
+    </div>
+      
+    </div>
+      
+    </div>
+    <div id="confirmationBox" class="confirmation-box">
+      <div class="confirmation-content">
+        <h3>Confirm Log Out</h3>
+        <p>Are you sure you want to log out?</p>
+        <div class="confirmation-buttons">
+          <button onclick="cancelLogout()">Cancel</button>
+          <button onclick="confirmLogout()">Log Out</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script src="script.js"></script>
+
+</body>
+</html>

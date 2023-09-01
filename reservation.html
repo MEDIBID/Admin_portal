@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <title>My Profile</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Boxicons CDN Link -->
+  <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  
+  <style>
+    /* Reserve details table styles */
+#reservations-table{
+  width: 100%;
+  
+}
+.reservations-table {
+
+    width: 100%;
+    padding: 100px 10px;
+    background-color: #f1f1f1;
+    border-collapse: separate;
+    border-spacing: 10px; /* Adjust the spacing value as per your preference */
+  }
+
+.reservations-table th,
+.reservations-table td {
+  font-size: 14px;
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ccc;
+}
+
+.reservations-table th {
+  background-color: #f2f2f2;
+}
+/* Style for the search bar */
+#searchInput {
+  
+  padding: 6px 100px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 0px;
+  margin-left: 10px;
+  background-color: white;
+  text-align: center;
+  background-image: url('https://www.freeiconspng.com/thumbs/search-icon-png/search-icon-png-18.png'); /* Replace 'path_to_your_search_icon.png' with the actual path to your search icon image */
+  background-repeat: no-repeat;
+  background-size: 20px;
+  background-position: 8px center;
+}
+
+/* Optional: Add some styling for when the search bar is focused */
+#searchInput:focus {
+  border-color: #00080f; /* Change the color to your preference */
+  outline: none;
+}
+
+  </style>
+</head>
+
+<body>
+  <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-database.js"></script>
+
+    <div class="sidebar">
+        <div class="logo-details">
+          <span class="logo_name">&nbsp;&nbsp;MEDIBID</span>
+        </div>
+        <ul class="nav-links">
+          <li>
+            <a href="admin_dashboard.html" >
+              <i class='bx bx-grid-alt' ></i>
+              <span>Dashboard</span>
+            </a>
+          </li>
+          <li>
+            <a href="medicalshop.html">
+              <i class='bx bx-store' ></i>
+              <span >Pharmacy</span>
+            </a> 
+          </li>
+          <li>
+            <a href="reservation.html" class="active">
+              <i class='bx bx-cart' ></i>
+              <span>Reservation list</span>
+            </a>
+          </li>
+          <li>
+            <a href="analysis.html">
+              <i class='bx bx-pie-chart-alt-2' ></i>
+              <span>Analytics</span>
+            </a>
+          </li>
+          <!-- <li>
+        <a href="users.html">
+          <i class='bx bx-user' ></i>
+          <span>Customer</span>
+        </a>
+      </li>-->
+         
+        </ul>
+      </div>
+
+  <section class="home-section">
+    <nav>
+        <div class="sidebar-button">
+          <i class='bx bx-menu sidebarBtn'></i>
+          <span class="dashboard">Reservation Details</span>
+          <input type="text" id="searchInput" placeholder="Search ">
+          
+          
+        </div>
+        
+        <div class="profile-details">
+          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC0AAAAtCAYAAAA6GuKaAAAAAXNSR0IArs4c6QAABVRJREFUaEPtmV1sFFUYht9vtq10ZwtVUw0EJIrIb4hEEbqzrdaUzkJKvDFR1AvRGC/8iSGgERJFhahEb4gxxkQxIcR4YYxSYGchWenuTFEr+E8gBpUIqEAQu7OU0j2fGaC17M7Pmd2a2MS53Hnf93v22zPnnDlLGIMXjUFm/A899KuN25W9jkCTGHysf3HLkdH+NavudDTVPRGIdIKgEzAPwPQySMYhJnwDcIoiNV12+6Lfq/kiFUOraWs5BK8GYX54APpSEDac7Yh/FN6L8GO63sguVKC8AeDWSgqO9DDYBOGpQkeiN0yWfKfXsaIusl4G4ekwBSS0zMzrCsnEixLaCxIp6MZMpvH8QN2HAO6UDa5A12Ujfy903Q7yBkJP6MpeOVir9ACYERRW9X3G/ugVA60n2tryfln+0L29tbFT5/Yw0Fw1kGwAw7D1+BIQsZfFF1o1clsBuk+23qjpGBvtpPZMaOiokV1GUD4ZNZCQQUy8wGtW8ey0mra+B/PskLUc+QcAv0OCz7NCtWBaAcLyCnKytq61uvlcodWU6RR6N2ShrCL4kb4liYOlvtiO7tlcE3kPjAVhMhm0rKDHu0o97tBG7jBA14cocLS+n2edvCvR5+Vp2P3Z1aI4eAjAVbK5DFgFXdMCoaO7rPkkeJ9s8AUd4yE7qW0O8qhGbjVAG4N0I+8zFycVkq3HR35W1umYYa5nYG2YYLuBoojHzwZ5nM0VUeRYkK4E8LG8rr3pC60a5ncA5oQIPmLr2lRZvWqYzg7vGlk9nHk7qSW9oZlJTVtF2eX9UtBpW9ekx6lqmH8CmCANDRy3dW2SJ/Slh+VkiMCLQ9pl3LlljE/vnV7kovMwhrnYrhuoQ1vb4JDpsjEd29Uzi4X4IUziRS2/YuuJZ4N8UcPcRMATQbrS+8WImNbf3nLYFbp+p9msKLDChjp6EqItv6TlUy9v1LA6CbytkmyhcPPZxYm9rtANu7M3iaJStjjIFmLQowU9/napXk2bK8F4XTanVBdhmv5XMv6jK3RTJhMrDNR5LhCSRZ0HzQLhABjznB0iATFJr6usdEotm6dVI5cHSK2myCh7z9i61jgy0wXa2gvwwlEuXHGc8x5Z0BMJX+hoOreGmDaErPIzM28mwi/gyFHiweHpiammBoqYzIypBDwMYEqobMYqO6ld9jyUdbrBsGYK8AHJ4D8AXmnria2Seqhp80EwnP1Hk4yniMEb+vXbf/LttHNTNUwHeqZfKAEfR86LFWc6W07LFB+pie3obmIlssU54Anw7rN17ZZSjfvWNG0+AMYWn8CM3RNvxzoSYYGH9b29tdFT/RkClW09h6c2xt35pOacAlx2eb+5GOa3AOa6QSkRMaOvvSXsclwW5bsCE76wO7Tb3Op7Q6esJIh3enTyV0Vwu9tbimznY6ncHCZKAZjs2hiQ1qfHXVdn37fxmJF7y1nlPEDOEPBcXtc2yYIO6WKG+SQDLwEY7+7l12w9sdorN/CwRk1bGTDf4RNwWIA2FBrwvu+LwLbeaLT23P2kYC0Y3vtvwna7Q+sMmAT8+yR7wsRAXgFvZVIOEIvfmJSTxNzERNeS4LlMvDxwpWXstynfEnQ0Fthp5yuNubO84d/BOTVtNl8FaFXYMRygFww8X9C19bK5Up0eGdaQ7tEEC+d8+mbZIl46Z19BRI/bHdpXYbJCQ/8zA+TuYWANQM5fFmGvz5n4hUJHYkdYo6OvGHqoWL2xZwpR7VKFOSmAuQTc6AJyEERfQ3AXiWIqv7T1RCWwQ56qod2Kj9tuTqU6nvif/Xermo5V6v1XOl0pjKxvTEL/DZlb7D1kArybAAAAAElFTkSuQmCC"/>
+          <label for="username" id="usernameLabel">&nbsp;User Name</label>
+          <span class="admin_name" id="username"></span>
+        </div>
+    </nav>
+    <div class="reserve-details">
+      <table class="reservations-table">
+        <tr>
+          <th>Reservation ID</th>
+          <th>Customer Phone Number</th>
+          <th>Medicine Name</th>
+          <th>Date</th>
+          <th>Time</th>
+          <th>Quantity</th>
+          <th>Price</th>
+          <th>Status</th>
+        </tr>
+      </table>
+      
+    </div>
+    
+   
+  </section>
+
+  <script >
+
+    
+  const sidebarBtn = document.querySelector(".sidebarBtn");
+  const sidebar = document.querySelector(".sidebar");
+  const homeSection = document.querySelector(".home-section");
+
+  sidebarBtn.onclick = function () {
+    sidebar.classList.toggle("active");
+    homeSection.classList.toggle("active");
+  }
+   // Initialize Firebase
+const firebaseConfig = {
+    apiKey: "AIzaSyBr6DfSQdrr8nj7l5_zJXZhKJMk1puWbR0",
+    authDomain: "fir-73e54.firebaseapp.com",
+    databaseURL: "https://fir-73e54-default-rtdb.firebaseio.com",
+    projectId: "fir-73e54",
+    storageBucket: "fir-73e54.appspot.com",
+    messagingSenderId: "578007925758",
+    appId: "1:578007925758:web:df4216c180067bc3dd76af",
+    measurementId: "G-BBB402HQTG"
+  };
+ 
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const database=firebase.database();
+
+window.addEventListener('load', function() {
+			updateReservationStatus();
+});
+		
+function updateReservationStatus() {
+    
+    const reservationRef = database.ref('reservation');
+    console.log("Reservations Updated")
+    // Get the current timestamp in milliseconds
+    const currentTime = Date.now();
+
+    reservationRef.once('value')
+      .then((snapshot) => {
+        snapshot.forEach((childSnapshot) => {
+          const reservationId = childSnapshot.key;
+          const reservation = childSnapshot.val();
+          const reservationTimestamp = reservation.timestamp;
+
+          // Check if the reservation is older than 24 hrs and has a "pending" status
+          if (reservation.status === 'pending' && currentTime - reservationTimestamp >= 24 * 60 * 60 * 1000) {
+            // Update the reservation status to "cancelled"
+            reservationRef.child(reservationId).child('status').set('cancelled')
+              .then(() => {
+                console.log('Reservation status updated to cancelled for reservation:', reservationId);
+              })
+              .catch((error) => {
+                console.error('Error updating reservation status:', error);
+              });
+			  reservationRef.child(reservationId).child('timestamp').set('null')
+              .then(() => {
+                console.log('Reservation time updated:', reservationId);
+              })
+              .catch((error) => {
+                console.error('Error updating reservation status:', error);
+              });
+			  
+          }
+        });
+      })
+      .catch((error) => {
+        console.error('Error retrieving reservation data:', error);
+      });
+  }
+    // Call the function to update reservation status every 24hrs
+	setInterval(updateReservationStatus, 24 * 60 * 60 * 1000);
+const reservationsRef = firebase.database().ref('reservation');
+const reserveDetailsDiv = document.querySelector('.reserve-details');
+
+reservationsRef.once('value', function(snapshot) {
+  const reserveDetails = snapshot.val();
+
+  // Create an array to store the reservations
+  const reservations = [];
+
+  // Iterate over reservation details and push them into the reservations array
+  for (const reserveId in reserveDetails) {
+    if (Object.prototype.hasOwnProperty.call(reserveDetails, reserveId)) {
+      const reserve = reserveDetails[reserveId];
+      reservations.push({ reserveId, ...reserve });
+    }
+  }
+
+
+
+// Create a table element
+const table = document.createElement('table');
+table.classList.add('reservations-table');
+
+// Create table header
+const headerRow = document.createElement('tr');
+const headers = [ 'Customer No.', 'Medicine Name','Pharmacy Name', 'Date', 'Time', 'Quantity', 'Price', 'Status'];
+headers.forEach(headerText => {
+  const th = document.createElement('th');
+  th.textContent = headerText;
+  headerRow.appendChild(th);
+});
+table.appendChild(headerRow);
+
+reservations.sort((a, b) => {
+  // Convert the date and time strings to Date objects for comparison
+  const dateTimeA = new Date(a.date + ' ' + a.time);
+  const dateTimeB = new Date(b.date + ' ' + b.time);
+
+  // Sort in descending order based on date and time
+  return dateTimeB - dateTimeA;
+});
+// Function to format the date as dd-mm-yyyy
+function formatDate(dateString) {
+  const date = new Date(dateString);
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const year = date.getFullYear();
+  return `${day}-${month}-${year}`;
+}
+
+
+reservations.forEach(reserve => {
+  const row = document.createElement('tr');
+
+  // Create table cells for each data field
+  const cells = [
+    
+    reserve.phNo,
+    reserve.medicineName,
+    reserve.shopName+", "+reserve.place,
+    formatDate(reserve.date),
+    reserve.time,
+    reserve.qty,
+    reserve.price,
+    reserve.status
+  ];
+
+  cells.forEach(cellText => {
+    const cell = document.createElement('td');
+    cell.textContent = cellText;
+    row.appendChild(cell);
+  });
+
+  table.appendChild(row);
+});
+
+// Clear the content of reserveDetailsDiv and append the table
+reserveDetailsDiv.innerHTML = '';
+reserveDetailsDiv.appendChild(table);
+});
+
+ // Retrieve the username from the localStorage
+ var username = localStorage.getItem("username");
+
+
+// Get references to the label and span elements
+var usernameLabel = document.getElementById("usernameLabel");
+var usernameSpan = document.getElementById("username");
+
+// Set the value of the span element and hide the label
+usernameSpan.innerText = username;
+usernameLabel.style.display = "none";
+
+
+const searchInput = document.getElementById("searchInput");
+
+// Function to handle search by  medicine name, and medical shop name
+function handleSearch() {
+  const searchText = searchInput.value.toLowerCase(); // Remove spaces and +91 from the search text
+  const rows = document.querySelectorAll(".reservations-table tr");
+
+  rows.forEach((row) => {
+    const medicineName = row.cells[1].textContent.toLowerCase();
+    const medicalShopName = row.cells[2].textContent.toLowerCase(); 
+
+    // Check for partial matches of medicine name, and medical shop name
+    if (medicineName.includes(searchText) || medicalShopName.includes(searchText)) {
+      row.style.display = "";
+    } else {
+      row.style.display = "none";
+    }
+  });
+}
+
+
+
+searchInput.addEventListener("input", handleSearch);
+
+
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="UTF-8">
+  <title>MEDIBID | ADMIN</title>
+  <link rel="stylesheet" href="style.css">
+  <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    .home-content {
+      text-align: center;
+    }
+    .shop-container > * {
+      margin-bottom: 20px;
+  padding-bottom: 10px; /* Add padding at the bottom of each element */
+}
+
+    #viewButton,
+    #addButton {
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 4px;
+      background-color: #0bb9c5;
+      color: white;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+    .shop-container {
+      width: 100%;
+      font-size: 16px;
+     
+      display: grid;
+      grid-template-columns: auto 1fr; /* Image column and details column */
+      grid-column-gap: 40px; /* Add some space between the columns */
+      margin-bottom: 40px; /* Add some space below each shop container */
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.shop-image {
+  width: 200px; /* Set the desired width */
+  height: 200px; /* Set the desired height */
+  object-fit: cover; /* Maintain aspect ratio and fill the container */
+}
+.details-container {
+  display: flex;
+  flex-direction: column;
+}
+
+    button {
+      padding: 10px 10px;
+      font-size: 16px;
+      border: none;
+      border-radius: 4px;
+      background-color: #0bb9c5;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #098790;
+    }
+    
+    .container {
+      max-width: auto;
+      margin: 20px;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    .container input[type="text"] {
+        width: 100%;
+          padding: 10px;
+          margin-bottom: 15px;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          box-sizing: border-box;
+    }
+    .container input[type="email"] {
+          width: 100%;
+          padding: 10px;
+          margin-bottom: 15px;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          box-sizing: border-box;
+    }
+    .container input[type="url"] {
+        width: 100%;
+          padding: 10px;
+          margin-bottom: 15px;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          box-sizing: border-box;
+    }
+
+
+
+    .container button[type="submit"] {
+      width: 20%;
+      padding: 10px;
+      background-color: #0bb9c5;
+      border: none;
+      color: #fff;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .container button[type="submit"]:hover {
+      background-color: #21a3ac;
+    }
+    .container .input-group {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .container .input-group label {
+      margin-right: 10px;
+    }
+    h1{
+      color: #0bb9c5;
+      
+    }
+    .horizontal-fields {
+      display: flex;
+    }
+
+    .horizontal-fields .form-field {
+      flex: 1;
+      margin-right: 10px;
+    }
+
+    .horizontal-fields .form-field:last-child {
+      margin-right: 0;
+    }
+
+    .hide {
+  display: none;
+}
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  text-align: center;
+}
+
+.modal-content {
+  display: inline-block;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  margin-top: 20vh;
+}
+
+.alert {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.modal-actions {
+  margin-top: 20px;
+}
+
+.modal-button {
+  padding: 10px 20px;
+  background-color: #0bb9c5;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.modal-button:hover {
+  background-color: #0bb9c5;
+}
+.name-container {
+  display: flex;
+  align-items: center;
+}
+
+.small-delete-button {
+  margin-left: 10px;
+  padding: 5px 10px;
+  font-size: 12px;
+  width: 100px;
+}
+
+
+
+
+  </style>
+</head>
+
+<body>
+
+  <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-database.js"></script>
+
+  <div class="sidebar">
+    <div class="logo-details">
+      <span class="logo_name">&nbsp;&nbsp;MEDIBID</span>
+    </div>
+    <ul class="nav-links">
+      <li>
+        <a href="admin_dashboard.html" >
+          <i class='bx bx-grid-alt'></i>
+          <span>Dashboard</span>
+        </a>
+      </li>
+      <li>
+        <a href="medicalshop.html" class="active" >
+          <i class='bx bx-store'></i>
+          <span>Pharmacy</span>
+        </a>
+      </li>
+      <li>
+        <a href="reservation.html">
+          <i class='bx bx-cart'></i>
+          <span>Reservation list</span>
+        </a>
+      </li>
+      <li>
+        <a href="analysis.html">
+          <i class='bx bx-pie-chart-alt-2'></i>
+          <span>Analytics</span>
+        </a>
+      </li>
+      <!-- <li>
+        <a href="users.html">
+          <i class='bx bx-user' ></i>
+          <span>Customer</span>
+        </a>
+      </li>-->
+      
+    </ul>
+  </div>
+
+  <section class="home-section">
+    <nav>
+      
+      <div class="sidebar-button">
+        <i class='bx bx-menu sidebarBtn'></i>
+        <span class="dashboard">Pharmacy</span>
+      </div>
+      
+      <div class="profile-details">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC0AAAAtCAYAAAA6GuKaAAAAAXNSR0IArs4c6QAABVRJREFUaEPtmV1sFFUYht9vtq10ZwtVUw0EJIrIb4hEEbqzrdaUzkJKvDFR1AvRGC/8iSGgERJFhahEb4gxxkQxIcR4YYxSYGchWenuTFEr+E8gBpUIqEAQu7OU0j2fGaC17M7Pmd2a2MS53Hnf93v22zPnnDlLGIMXjUFm/A899KuN25W9jkCTGHysf3HLkdH+NavudDTVPRGIdIKgEzAPwPQySMYhJnwDcIoiNV12+6Lfq/kiFUOraWs5BK8GYX54APpSEDac7Yh/FN6L8GO63sguVKC8AeDWSgqO9DDYBOGpQkeiN0yWfKfXsaIusl4G4ekwBSS0zMzrCsnEixLaCxIp6MZMpvH8QN2HAO6UDa5A12Ujfy903Q7yBkJP6MpeOVir9ACYERRW9X3G/ugVA60n2tryfln+0L29tbFT5/Yw0Fw1kGwAw7D1+BIQsZfFF1o1clsBuk+23qjpGBvtpPZMaOiokV1GUD4ZNZCQQUy8wGtW8ey0mra+B/PskLUc+QcAv0OCz7NCtWBaAcLyCnKytq61uvlcodWU6RR6N2ShrCL4kb4liYOlvtiO7tlcE3kPjAVhMhm0rKDHu0o97tBG7jBA14cocLS+n2edvCvR5+Vp2P3Z1aI4eAjAVbK5DFgFXdMCoaO7rPkkeJ9s8AUd4yE7qW0O8qhGbjVAG4N0I+8zFycVkq3HR35W1umYYa5nYG2YYLuBoojHzwZ5nM0VUeRYkK4E8LG8rr3pC60a5ncA5oQIPmLr2lRZvWqYzg7vGlk9nHk7qSW9oZlJTVtF2eX9UtBpW9ekx6lqmH8CmCANDRy3dW2SJ/Slh+VkiMCLQ9pl3LlljE/vnV7kovMwhrnYrhuoQ1vb4JDpsjEd29Uzi4X4IUziRS2/YuuJZ4N8UcPcRMATQbrS+8WImNbf3nLYFbp+p9msKLDChjp6EqItv6TlUy9v1LA6CbytkmyhcPPZxYm9rtANu7M3iaJStjjIFmLQowU9/napXk2bK8F4XTanVBdhmv5XMv6jK3RTJhMrDNR5LhCSRZ0HzQLhABjznB0iATFJr6usdEotm6dVI5cHSK2myCh7z9i61jgy0wXa2gvwwlEuXHGc8x5Z0BMJX+hoOreGmDaErPIzM28mwi/gyFHiweHpiammBoqYzIypBDwMYEqobMYqO6ld9jyUdbrBsGYK8AHJ4D8AXmnria2Seqhp80EwnP1Hk4yniMEb+vXbf/LttHNTNUwHeqZfKAEfR86LFWc6W07LFB+pie3obmIlssU54Anw7rN17ZZSjfvWNG0+AMYWn8CM3RNvxzoSYYGH9b29tdFT/RkClW09h6c2xt35pOacAlx2eb+5GOa3AOa6QSkRMaOvvSXsclwW5bsCE76wO7Tb3Op7Q6esJIh3enTyV0Vwu9tbimznY6ncHCZKAZjs2hiQ1qfHXVdn37fxmJF7y1nlPEDOEPBcXtc2yYIO6WKG+SQDLwEY7+7l12w9sdorN/CwRk1bGTDf4RNwWIA2FBrwvu+LwLbeaLT23P2kYC0Y3vtvwna7Q+sMmAT8+yR7wsRAXgFvZVIOEIvfmJSTxNzERNeS4LlMvDxwpWXstynfEnQ0Fthp5yuNubO84d/BOTVtNl8FaFXYMRygFww8X9C19bK5Up0eGdaQ7tEEC+d8+mbZIl46Z19BRI/bHdpXYbJCQ/8zA+TuYWANQM5fFmGvz5n4hUJHYkdYo6OvGHqoWL2xZwpR7VKFOSmAuQTc6AJyEERfQ3AXiWIqv7T1RCWwQ56qod2Kj9tuTqU6nvif/Xermo5V6v1XOl0pjKxvTEL/DZlb7D1kArybAAAAAElFTkSuQmCC"/>
+        <label for="username" id="usernameLabel">&nbsp;User Name</label>
+        <span class="admin_name" id="username"></span>
+      </div>
+    </nav>
+   
+
+    <div class="home-content">
+        <button id="viewButton">View</button>
+        <button id="addButton">Add</button>
+    </div>
+    <!--<div class="container-shop">-->
+      <div id="medicalShopListContainer" class="container hide">
+        <div class="shop-details"></div>
+    </div>
+    
+    
+    <!--<div class="container">-->
+      <div id="registrationFormContainer" class="container hide">
+
+      <form id="registrationForm">
+      <h1>Pharmacy Registration</h1>    
+        <label for="shopName">Shop Name:</label>
+        <input type="text" id="shopName" name="shopName" placeholder="Shop Name" required>
+
+        <label for="">Email:</label>
+            <input type="email" id="email" name="email" placeholder="Email" required>
+  
+        <label for="address">Address:</label>
+        <input type="text" id="address" name="address" placeholder="Address" oninput="updateGoogleMapsUrl()" required>
+
+        <div class="horizontal-fields">
+          <div class="form-field">
+            <label for="pincode">Pincode:</label>
+            <input type="text" id="pincode" name="pincode" placeholder="Pincode" pattern="[0-9]{6}" oninput="updateGoogleMapsUrl()" required>
+          </div>
+    
+          <div class="form-field">
+            <label for="place">Place:</label>
+            <input type="text" id="place" name="place" placeholder="City" required>
+          </div>
+    
+          <div class="form-field">
+            <label for="phone">Phone Number:</label>
+            <input type="text" id="phone" name="phone number" placeholder="Phone Number" pattern="[0-9]{10}" required>
+          </div>
+        </div>
+        
+      
+    
+       
+        <div class="horizontal-fields">
+          <div class="form-field">
+            <label for="latitude">Latitude:</label>
+            <input type="text" id="latitude" name="latitude" placeholder="Latitude" required>
+          </div>
+          <div class="form-field">
+            <label for="longitude">Longitude:</label>
+            <input type="text" id="longitude" name="longitude" placeholder="Longitude" required>
+          </div>
+        </div>
+
+        <label for="gmap">GMap URL:</label>
+        <input type="url" id="gmap" name="Gmap" placeholder="Enter a valid GMap URL"   readonly>
+  
+            <label for="shop_password">Password:</label>
+            <input type="text" id="shop_password" name="shop_password" placeholder="Password" required>
+         
+
+        <div class="horizontal-fields">
+          <div class="form-field">
+        <label for="image">Image URL:</label>
+        <input style="width: 202%;" type="url" id="image" name="image" placeholder="Enter a valid image URL" required>
+      </div>
+    <div class="form-field">
+        
+      </div>
+    </div>
+        <button type="submit">Add</button>
+      </form>
+      </div>
+    
+      <div id="alertModal" class="modal">
+        <div class="modal-content">
+          <p id="alertMessage"></p>
+          <div class="modal-actions">
+            <button id="confirmButton" class="modal-button">OK</button>
+          </div>
+        </div>
+      </div>
+      
+      
+      
+
+  </section>
+
+  <script>
+    const sidebarBtn = document.querySelector(".sidebarBtn");
+    const sidebar = document.querySelector(".sidebar");
+    const homeSection = document.querySelector(".home-section");
+  
+    sidebarBtn.onclick = function () {
+      sidebar.classList.toggle("active");
+      homeSection.classList.toggle("active");
+    };
+
+    // Add event listeners to the view and add buttons
+const viewButton = document.getElementById("viewButton");
+const addButton = document.getElementById("addButton");
+
+viewButton.addEventListener("click", showMedicalShopList);
+addButton.addEventListener("click", showRegistrationForm);
+
+function showMedicalShopList() {
+  const registrationFormContainer = document.getElementById("registrationFormContainer");
+  const medicalShopListContainer = document.getElementById("medicalShopListContainer");
+
+  // Hide the registration form
+  registrationFormContainer.classList.add("hide");
+
+  // Show the medical shop list
+  medicalShopListContainer.classList.remove("hide");
+}
+
+function showRegistrationForm() {
+  const registrationFormContainer = document.getElementById("registrationFormContainer");
+  const medicalShopListContainer = document.getElementById("medicalShopListContainer");
+
+  // Hide the medical shop list
+  medicalShopListContainer.classList.add("hide");
+
+  // Show the registration form
+  registrationFormContainer.classList.remove("hide");
+}
+
+function showAlert(message) {
+  var modal = document.getElementById("alertModal");
+  var alertMessage = document.getElementById("alertMessage");
+  alertMessage.textContent = message;
+  modal.style.display = "block";
+}
+function hideAlert() {
+  var modal = document.getElementById("alertModal");
+  modal.style.display = "none";
+}
+
+
+    
+
+  // Initialize Firebase
+  const firebaseConfig = {
+    apiKey: "AIzaSyBr6DfSQdrr8nj7l5_zJXZhKJMk1puWbR0",
+    authDomain: "fir-73e54.firebaseapp.com",
+    databaseURL: "https://fir-73e54-default-rtdb.firebaseio.com",
+    projectId: "fir-73e54",
+    storageBucket: "fir-73e54.appspot.com",
+    messagingSenderId: "578007925758",
+    appId: "1:578007925758:web:df4216c180067bc3dd76af",
+    measurementId: "G-BBB402HQTG"
+  };
+    firebase.initializeApp(firebaseConfig);
+
+
+// Retrieve the username from the localStorage
+ var username = localStorage.getItem("username");
+
+// Get references to the label and span elements
+var usernameLabel = document.getElementById("usernameLabel");
+var usernameSpan = document.getElementById("username");
+
+// Set the value of the span element and hide the label
+usernameSpan.innerText = username;
+usernameLabel.style.display = "none";
+function updateGoogleMapsUrl() {
+  const NameInput = document.getElementById("shopName");
+  const addressInput = document.getElementById("address");
+  const pincodeInput = document.getElementById("pincode");
+  const latitudeInput = document.getElementById("latitude");
+  const longitudeInput = document.getElementById("longitude");
+  const googleMapsUrlInput = document.getElementById("gmap");
+
+  // Get the input values
+  const Name = NameInput.value;
+  const address = addressInput.value;
+  const pincode = pincodeInput.value;
+  const latitude = latitudeInput.value;
+  const longitude = longitudeInput.value;
+
+  // Generate the Google Maps URL
+  const googleMapsUrl = getGoogleMapsUrl(Name, address, pincode, latitude, longitude);
+
+  // Update the Google Maps URL input value
+  googleMapsUrlInput.value = googleMapsUrl;
+}
+
+
+function getGoogleMapsUrl(Name,address, pincode) {
+   // Encode the address, pincode, latitude, and longitude for the URL
+   const encodedAddress = encodeURIComponent(`${Name},${address}, ${pincode}`);
+  const encodedLatitude = encodeURIComponent(latitude);
+  const encodedLongitude = encodeURIComponent(longitude);
+
+  // Create the Google Maps URL with latitude and longitude
+  const url = `https://www.google.com/maps/search/?api=1&query=${encodedAddress}&ll=${encodedLatitude},${encodedLongitude}`;
+
+
+  return url;
+}
+
+
+
+function handleViewButtonClick() {
+    // Fetch data from Firebase
+    firebase.database().ref("medical store").once("value")
+        .then(function(snapshot) {
+            // Get the data snapshot
+            var medicalShops = snapshot.val();
+
+            // Clear the existing shop details
+            var shopDetails = document.querySelector(".shop-details");
+            shopDetails.innerHTML = "";
+
+            // Iterate over the medical shops
+            for (var key in medicalShops) {
+                if (medicalShops.hasOwnProperty(key)) {
+                    var shop = medicalShops[key];
+
+                    // Create a container div for each shop
+                    var shopContainer = document.createElement("div");
+                    shopContainer.classList.add("shop-container");
+
+                    // Create the image element
+                    var image = document.createElement("img");
+                    image.src = shop.image;
+                    image.alt = "Shop Image";
+                    image.classList.add("shop-image");
+
+                    // Create a div to hold the details
+                    var detailsContainer = document.createElement("div");
+                    detailsContainer.classList.add("details-container");
+
+                    // Create elements to display the shop details
+                    var name = document.createElement("h2");
+                    name.textContent = shop.Name;
+
+                    var address = document.createElement("p");
+                    address.textContent = "Address: " + shop.address;
+
+                    var place = document.createElement("p");
+                    place.textContent = "Place: " + shop.place;
+
+                    var phone = document.createElement("p");
+                    phone.textContent = "Phone Number: " + shop.phone_no;
+
+                    var email = document.createElement("p");
+                    email.textContent= "Email ID: " + shop.email;
+
+                    var latitude = document.createElement("p");
+                    latitude.textContent = "Latitude: " + shop.location.latitude;
+
+                    var longitude = document.createElement("p");
+                    longitude.textContent = "Longitude: " + shop.location.longitude;
+
+                    var mapLink = document.createElement("a");
+                    mapLink.href = shop.map;
+                    mapLink.target = "_blank";
+                    mapLink.textContent = "View on Google Maps";
+
+                    // Create elements to display the shop details
+                    var name = document.createElement("h2");
+                    name.textContent = shop.Name;
+// Create a delete button
+var deleteButton = document.createElement("button");
+deleteButton.textContent = "Remove";
+deleteButton.classList.add("small-delete-button");
+deleteButton.setAttribute("data-shop-id", key);
+ // Add an event listener to the delete button
+ deleteButton.addEventListener("click", handleDeleteButtonClick);
+
+// Create a container for the shop name and delete button
+var nameContainer = document.createElement("div");
+nameContainer.classList.add("name-container");
+nameContainer.appendChild(name);
+nameContainer.appendChild(deleteButton);
+          
+       
+                
+
+                    // Append the image and details to the shop container
+                    shopContainer.appendChild(image);
+                    detailsContainer.appendChild(nameContainer);
+                    detailsContainer.appendChild(address);
+                    detailsContainer.appendChild(place);
+                    detailsContainer.appendChild(phone);
+                    detailsContainer.appendChild(email);
+                    detailsContainer.appendChild(latitude);
+                    detailsContainer.appendChild(longitude);
+                    detailsContainer.appendChild(mapLink);
+                    shopContainer.appendChild(detailsContainer);
+
+                    // Append the shop container to the shop details section
+                    shopDetails.appendChild(shopContainer);
+                }
+            }
+        })
+        .catch(function(error) {
+            console.log("Error fetching data: " + error);
+        });
+}
+// Function to handle the delete button click event
+function handleDeleteButtonClick(event) {
+    var shopId = event.target.getAttribute("data-shop-id");
+    if (confirm("Are you sure you want to delete this shop?")) {
+        // Delete the shop with the specified ID from Firebase
+        firebase.database().ref("medical store").child(shopId).remove()
+            .then(function() {
+                // Shop deleted successfully, you can update the UI as needed
+                console.log("Shop deleted successfully");
+                // Re-fetch and display the updated shop list
+                handleViewButtonClick();
+            })
+            .catch(function(error) {
+                console.log("Error deleting shop: " + error);
+            });
+    }
+}
+
+document.getElementById("viewButton").addEventListener("click", handleViewButtonClick);
+
+
+
+
+function handleAddButtonClick() {
+  var registrationForm = document.getElementById("registrationForm");
+  registrationForm.style.display = "block";
+}
+
+// Attach event listeners to the buttons
+document.getElementById("addButton").addEventListener("click", handleAddButtonClick);
+document.getElementById("registrationForm").addEventListener("submit", handleFormSubmit);
+document.getElementById("confirmButton").addEventListener("click", hideAlert);
+
+function handleFormSubmit(event) {
+  event.preventDefault(); // Prevent the form from submitting and refreshing the page
+
+  // Get the values from the form fields
+  var shopName = document.getElementById("shopName").value;
+  var address = document.getElementById("address").value;
+  var pincode = document.getElementById("pincode").value;
+  var place = document.getElementById("place").value;
+  var phoneNumber = document.getElementById("phone").value;
+ 
+  var latitude = document.getElementById("latitude").value;
+  var longitude = document.getElementById("longitude").value;
+  var gmapUrl = document.getElementById("gmap").value;
+  var email = document.getElementById("email").value;
+  var password = document.getElementById("shop_password").value;
+  var image = document.getElementById("image").value;
+ 
+
+  // Check if the shop name already exists in the database
+  var firebaseRef = firebase.database().ref("medical store");
+  firebaseRef
+  .orderByChild("email")
+          .equalTo(email)
+          .once("value")
+          .then(function (userSnapshot) {
+            if (userSnapshot.exists()) {
+              showAlert("Email is already exists!");
+            } else  {
+              // Check if the shop password already exists in the database
+              firebaseRef
+                .orderByChild("shop_password")
+                .equalTo(password)
+                .once("value")
+                .then(function (passwordSnapshot) {
+                  if (passwordSnapshot.exists()) {
+                    showAlert("Shop password is already taken!");
+                  } else {
+                    // Create an object to store the form data
+                    var formData = {
+                      Name: shopName,
+                      address: address + ' ' + pincode,
+                      place: place,
+                      phone_no: phoneNumber,
+                      
+                      location: {
+                        latitude: latitude,
+                        longitude: longitude
+                      },
+                      map: gmapUrl,
+                      email: email,
+                      shop_password: password,
+                      image: image,
+                      
+                    };
+
+                    // Store the form data to Firebase
+                    var newEntryRef = firebaseRef.push();
+                    newEntryRef.set(formData);
+                    showAlert("Pharmacy is added successfully!");
+                    // Reset the form
+                    event.target.reset();
+                  }
+                })
+                .catch(function (error) {
+                  console.log("Error checking shop password: " + error);
+                });
+            }
+          })
+          .catch(function (error) {
+            console.log("Error checking user ID: " + error);
+          });
+      }
+  
+
+
+
+
+  </script>
+</body>
+
+</html>
